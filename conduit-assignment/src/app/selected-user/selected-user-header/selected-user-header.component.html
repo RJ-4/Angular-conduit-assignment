@@ -1,0 +1,29 @@
+<div *ngIf='isSignedIn'>
+    <app-navigation-bar-for-signed-in-user></app-navigation-bar-for-signed-in-user>
+</div>
+<div *ngIf='!isSignedIn'>
+    <app-navigation-bar></app-navigation-bar>
+</div>
+
+<div *ngIf="userProfileLoaded | async">
+  <div class="my-5 bg-secondary">
+    <div class="container text-center">
+      <img src="{{ getUserProfile().image }}" width="100px" height="100px" class="mt-5 mb-3 rounded-circle">
+      <h4 class="mb-3">{{ username }}</h4>
+      <p class="mb-4 text-dark">{{ userProfile.bio }}</p>
+      <div *ngIf="!(username === loggedInUsername)">
+        <button *ngIf="!getUserProfile().following" (click)="onClickFollowUser()"class="btn btn-outline-light btn-sm mb-4">
+          <i class="fas fa-plus mr-2"></i>Follow {{ username }}
+        </button>
+        <button *ngIf="getUserProfile().following" (click)="onClickUnfollowUser()" class="btn btn-outline-light btn-sm mb-4">
+          <i class="fas fa-plus mr-2"></i>Unfollow {{ username }}
+        </button>
+      </div>
+      <div *ngIf="username === loggedInUsername">
+        <button (click)="editProfile()" class="btn btn-outline-light btn-sm mb-4">
+            <i class="fas fa-cog"></i> Edit Profile
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

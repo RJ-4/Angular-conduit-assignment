@@ -1,0 +1,31 @@
+<app-navigation-bar-for-signed-in-user></app-navigation-bar-for-signed-in-user>
+<div class="container text-center my-5">
+  <div class="row" style="justify-content: center">
+    <div class="col-md-8">
+      <h1 class="pt-4 font-weight-normal pb-4">Your Settings</h1>
+      <form (ngSubmit)="onUpdate(f)" #f="ngForm">
+        <div class="form-group pb-1">
+          <input type="text" name="imageUrl" class="form-control" ngModel placeholder="URL of profile picture" [value]="getLoggedInUser().image">
+        </div>
+        <div class="form-group pb-1">
+          <input type="text" name="username" class="form-control" ngModel placeholder="Username" [value]="getLoggedInUser().username">
+        </div>
+        <div class="form-group pb-1">
+          <textarea rows="6" placeholder="Short bio about you" name="bio" ngModel class="form-control" [value]="getLoggedInUser().bio" ></textarea>
+        </div>
+        <div class="form-group">
+          <input type="email" name="email" ngModel required class="form-control pb-1" placeholder="Email"
+          [value]="getLoggedInUser().email">
+        </div>
+        <div class="form-group">
+          <input type="password" name="password" ngModel class="form-control pb-1" placeholder="New Password">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-success mb-3">Update Settings</button>
+        </div>
+      </form>
+      <hr>
+      <button (click)="onLogout()"class="btn btn-outline-danger mb-4">Or click here to Logout</button>
+    </div>
+  <div>
+</div>  

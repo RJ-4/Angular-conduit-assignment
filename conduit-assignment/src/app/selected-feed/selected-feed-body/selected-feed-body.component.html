@@ -1,0 +1,49 @@
+<div class="container">
+    <div *ngFor="let feed of feeds">
+        <div *ngIf="feed.slug === getSlug()">
+            <p class="feed-body my-4">
+                {{ feed.body }}
+            </p>   
+            <div class="pt-5 pb-2">
+                <hr>
+            </div>
+            <div class="d-flex" style="justify-content: center">
+                <div class="align-self-start">
+                    <img [src]="feed.author.image" class="rounded-circle p-1" width="50px" height="50px">
+                </div>
+                <div class="align-self-start px-2">
+                    <a routerLink="/{{ feed.author.username }}"class="align-self-start text-success">{{ feed.author.username }}</a>
+                    <small><div class="align-self-end text-secondary font-weight-light">{{ feed.updatedAt | date }}</div></small>
+                </div>
+                <div *ngIf="isSignedIn">
+                    <div *ngIf="!(feed.author.username===getLoggedInUsername())" class="ml-4 mt-2">
+                        <button class="btn btn-outline-secondary font-weight-light btn-sm">
+                            <i class="fas fa-plus mr-1"></i> Follow {{ feed.author.username }}
+                        </button>
+                        <button class="ml-1 btn btn-outline-success btn-sm">
+                            <i class="fas fa-heart mr-1"></i>Favorite Article ({{ feed.favoritesCount }})
+                        </button>
+                    </div>
+                    <div *ngIf="feed.author.username===getLoggedInUsername()" class="ml-4 mt-2">
+                        <button (click)="onUpdateArticle(feed.slug)" class="btn btn-outline-secondary font-weight-light btn-sm">
+                            <i class="fas fa-pencil-alt"></i> Edit Article
+                        </button>
+                        <button (click)="onDeleteArticle(feed.slug)" class="ml-1 btn btn-outline-danger btn-sm">
+                            <i class="fas fa-trash-alt"></i> Delete Article
+                        </button>
+                    </div>
+                </div>
+                <div *ngIf="!isSignedIn">
+                    <div class="ml-4 mt-2">
+                        <button class="btn btn-outline-secondary font-weight-light btn-sm">
+                            <i class="fas fa-plus mr-1"></i> Follow {{ feed.author.username }}
+                        </button>
+                        <button class="ml-1 btn btn-outline-success btn-sm">
+                            <i class="fas fa-heart mr-1"></i>Favorite Article ({{ feed.favoritesCount }})
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+<div *ngIf='isSignedIn'>
+    <app-navigation-bar-for-signed-in-user></app-navigation-bar-for-signed-in-user>
+</div>
+<div *ngIf='!isSignedIn'>
+    <app-navigation-bar></app-navigation-bar>
+</div>
+<app-header></app-header>
+<app-global-feed></app-global-feed>

@@ -1,0 +1,42 @@
+<app-navigation-bar-for-signed-in-user></app-navigation-bar-for-signed-in-user>
+<div class="container text-center my-5 pb-5">
+  <div class="row" style="justify-content: center">
+    <div class="col-md-8">
+      <div *ngIf="articleSlug">
+        <form (ngSubmit)="onUpdate(f)" #f="ngForm">
+          <div class="form-group">
+            <input type="text" name="title" ngModel class="pb-1 mt-5 form-control form-control-lg" placeholder="Article Title" [value] = "articleToBeUpdated.title" required>
+          </div>
+          <div class="form-group">
+            <input type="text" name="description" ngModel class="form-control pb-1" placeholder="What's this article about?" [value] = "articleToBeUpdated.description" required>
+          </div>
+          <div class="form-group">
+            <textarea class="form-control pb-1" name="body" ngModel rows="10" placeholder="Write your article (in markdown)" [value] = "articleToBeUpdated.body" required></textarea>
+          </div>
+          <div class="form-group">
+            <input type="text" name="tagList" ngModel class="form-control pb-1" placeholder="Enter tags" [value] = "articleToBeUpdated.tagList">
+          </div>
+          <button type="submit" class="btn btn-success btn-lg mt-4">Publish Article</button>
+        </form>
+      </div>
+
+      <div *ngIf="!articleSlug">
+        <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+          <div class="form-group">
+            <input type="text" name="title" ngModel class="pb-1 mt-5 form-control form-control-lg" placeholder="Article Title" required>
+          </div>
+          <div class="form-group">
+            <input type="text" name="description" ngModel class="form-control pb-1" placeholder="What's this article about?" required>
+          </div>
+          <div class="form-group">
+            <textarea class="form-control pb-1" name="body" ngModel rows="10" placeholder="Write your article (in markdown)" required></textarea>
+          </div>
+          <div class="form-group">
+            <input type="text" name="tagList" ngModel class="form-control pb-1" placeholder="Enter tags">
+          </div>
+          <button type="submit" class="btn btn-success btn-lg mt-4">Publish Article</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

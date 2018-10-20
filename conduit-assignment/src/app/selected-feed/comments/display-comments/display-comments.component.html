@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="row" style="justify-content: center">
+        <div class="col-md-8">
+            <form *ngFor="let comment of comments" class="mt-2 mb-2">
+                <textarea class="form-control" rows="3" [value]="comment.body"></textarea>
+                <div class="d-flex bg-light">
+                    <div class="align-self-start m-2">
+                        <img [src]="comment.author.image" width="20px" height="20px" class="rounded-circle">
+                    </div>
+                    <div class="m-2">
+                        <a routerLink="/{{ comment.author.username }}" class="text-success"><small>{{ comment.author.username }}</small></a>
+                    </div>
+                    <div class="m-2">
+                        <span class="text-secondary"><small>{{ comment.createdAt|date }}</small></span>
+                    </div>
+                    <a *ngIf="loggedInUsername === comment.author.username" routerLink="/article/getSlug()" (click)="onDeleteComment(comment.id)" class="ml-auto mr-3 mt-2 mb-2" style="color: gray">
+                        <small><i class="fas fa-trash-alt"></i></small>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="mb-5 pb-5"></div>

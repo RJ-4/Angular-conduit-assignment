@@ -1,0 +1,28 @@
+<div *ngIf="yourFeedsLoaded | async">
+    <div *ngIf="getYourFeeds().length === 0">
+        <p>No articles here... yet</p>
+    </div>
+    
+    <div *ngIf="getYourFeeds().length > 0">
+        <div *ngFor="let feed of yourFeeds">
+            <div class="d-flex">
+                <div class="align-self-start">
+                <img [src]="feed.author.image" class="rounded-circle p-1" width="50px" height="50px">
+                </div>
+                <div class="align-self-start px-2">
+                <a [routerLink]= "[feed.author.username]" class="align-self-start text-success">{{ feed.author.username }}</a>
+                <small><div class="align-self-end text-secondary">{{ feed.updatedAt| date }}</div></small>
+                </div>
+                <small class="ml-auto"> 
+                <button class="btn btn-outline-success">
+                    <small><i class="fas fa-heart mr-1"></i>{{ feed.favoritesCount }}</small>
+                </button>
+                </small>
+            </div>
+            <h4 class="display-5 pt-3 px-2">{{ feed.title }}</h4>
+            <p class="text-secondary px-2 pb-2 font-weight-light">{{ feed.body }}</p>
+            <small><a [routerLink]="['/article', feed.slug]" class="text-secondary px-2">Read more...</a></small>
+            <hr>
+        </div>
+    </div>
+</div>

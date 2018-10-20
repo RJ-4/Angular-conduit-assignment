@@ -1,0 +1,60 @@
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-8">
+      <ul class="nav nav-pills">
+        
+        <div *ngIf='isSignedIn'>
+          <li class="nav-item">
+            <a routerLink class="nav-link tabActive yourFeedTab" (click)="onSelectYourFeed()">Your Feed</a>
+          </li>
+        </div>
+        
+        <li class="nav-item">
+          <a routerLink class="nav-link tabInactive globalFeedTab" (click)="onSelectGlobalFeed()">Global Feed</a>
+        </li>
+      
+      </ul>
+      <br>
+      
+      <div *ngIf="!isGlobalFeedSelected">
+        <app-your-feed></app-your-feed>
+      </div>
+      
+      <div *ngIf="isGlobalFeedSelected">
+        <div *ngFor="let feed of feeds; let i = index">
+          <div class="d-flex">
+            <div class="align-self-start">
+              <img [src]="feed.author.image" class="rounded-circle p-1" width="50px" height="50px">
+            </div>
+            <div class="align-self-start px-2">
+              <a [routerLink]= "[feed.author.username]" class="align-self-start text-success">{{ feed.author.username }}</a>
+              <small><div class="align-self-end text-secondary">{{ feed.updatedAt| date }}</div></small>
+            </div>
+            <small class="ml-auto"> 
+              <button class="btn btn-outline-success" id="favoritesCountButton" #b (click)="onLikeArticle(feed)">
+                <small><i class="fas fa-heart mr-1"></i>
+                  <span *ngIf="!isFavoritesButtonClicked">{{ feeds[i].favoritesCount }}</span>
+                  <span *ngIf="isFavoritesButtonClicked"> 
+                    <span *ngIf="isFavoriteCountIncreased">{{ feeds[i].favoritesCount + 1 }}</span>
+                    <span *ngIf="!isFavoriteCountIncreased">{{ feeds[i].favoritesCount }}</span>
+                  </span>
+                </small> 
+              </button>
+            </small>
+          </div>
+          <h4 class="display-5 pt-3 px-2">{{ feed.title }}</h4>
+          <p class="text-secondary px-2 pb-2 font-weight-light">{{ feed.body }}</p>
+          <small><a [routerLink]="['/article', feed.slug]" class="text-secondary px-2">Read more...</a></small>
+          <hr>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      
+    </div>
+    
+  </div>
+</div>
+
+

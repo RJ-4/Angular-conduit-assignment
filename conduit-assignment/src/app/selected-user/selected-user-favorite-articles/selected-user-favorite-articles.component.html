@@ -1,0 +1,31 @@
+<div *ngIf="isFavoritedArticlesLoaded | async">
+  <div *ngIf="favoritedArticles.length === 0">
+    <p>No articles are here... yet.</p>
+  </div>
+  
+  <div *ngIf="favoritedArticles.length > 0">
+    <div *ngFor="let article of favoritedArticles" id="myArticles">
+      <div class="d-flex">
+        <div class="align-self-start">
+          <img [src]="article.author.image" class="rounded-circle p-1" width="50px" height="50px">
+        </div>
+        <div class="align-self-start px-2">
+          <a routerLink= "/{{ article.author.username }}" class="align-self-start text-success">{{ article.author.username }}</a>
+          <small><div class="align-self-end text-secondary">{{ article.updatedAt| date }}</div></small>
+        </div>
+        <small class="ml-auto"> 
+          <button class="btn btn-outline-success">
+            <small><i class="fas fa-heart mr-1"></i>{{ article.favoritesCount }}</small>
+          </button>
+        </small>
+      </div>
+      <h4 class="display-5 pt-3 px-2">{{ article.title }}</h4>
+      <p class="text-secondary px-2 pb-2 font-weight-light">{{ article.body }}</p>
+      <small><a [routerLink]="['/article', article.slug]" class="text-secondary px-2">Read more...</a></small>
+      <hr>
+    </div>
+  </div> 
+  
+  <div class="pt-5 mt-5"></div>
+
+</div> 

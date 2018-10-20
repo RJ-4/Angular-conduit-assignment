@@ -1,0 +1,46 @@
+<div *ngIf="loggedInUserLoaded | async">
+    <div class="container mt-5 mb-3">
+      <div class="row" style="justify-content: center">
+        <div class="col-md-8">
+          <form (ngSubmit)="onPostComment(f)" #f="ngForm">
+            <textarea class="form-control" name="body" ngModel rows="4" placeholder="Write a comment..." required></textarea>
+            <div class="d-flex bg-light">
+              <div class="align-self-start">
+                <img src="{{ loggedInUser.image }}" width="35px" height="35px" class="rounded-circle m-2">
+              </div>
+              <div class="ml-auto m-2">
+                <button type="submit" class="btn btn-success form-control btn-sm"><small><b>Post Comment</b></small></button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isPostedCommentLoaded | async">
+        <div *ngIf="isCommentPosted">
+            <div class="container">
+                <div class="row" style="justify-content: center">
+                    <div class="col-md-8">
+                        <form class="mt-2 mb-2">
+                            <textarea class="form-control" rows="3" [value]="postedComment.body"></textarea>
+                            <div class="d-flex bg-light">
+                                <div class="align-self-start m-2">
+                                    <img [src]="postedComment.author.image" width="20px" height="20px" class="rounded-circle">
+                                </div>
+                                <div class="m-2">
+                                    <a routerLink="/{{ postedComment.author.username }}" class="text-success"><small>{{ postedComment.author.username }}</small></a>
+                                </div>
+                                <div class="m-2">
+                                    <span class="text-secondary"><small>{{ postedComment.createdAt|date }}</small></span>
+                                </div>
+                                <a routerLink="/article/getSlug()" (click)="onDeleteComment()" class="ml-auto mr-3 mt-2 mb-2" style="color: gray">
+                                    <small><i class="fas fa-trash-alt"></i></small>
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

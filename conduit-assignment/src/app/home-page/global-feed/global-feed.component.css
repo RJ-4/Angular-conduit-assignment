@@ -1,0 +1,18 @@
+p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+.tabActive{
+    color: green;
+    border-bottom: 2px solid green;
+    font: bold;
+}
+
+.tabInactive{
+    color: silver;
+    border-bottom: 2px solid silver;
+    font: lighter;
+}
