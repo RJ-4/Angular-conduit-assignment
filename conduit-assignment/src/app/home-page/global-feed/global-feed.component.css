@@ -16,3 +16,8 @@ p {
     border-bottom: 2px solid silver;
     font: lighter;
 }
+
+.isFavorited{
+    background-color: green;
+    color: white;
+}

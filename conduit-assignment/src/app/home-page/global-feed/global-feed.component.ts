@@ -4,6 +4,7 @@ import { SignInService } from 'src/app/sign-in/sign-in.service';
 import { AuthService } from 'src/app/sign-in/auth.service';
 import { LikeUnlikeArticleService } from 'src/app/like-unlike-article.service';
 import { Router } from '@angular/router';
+import { GetTagsService } from '../get-tags.service';
 
 @Component({
   selector: 'app-global-feed',
@@ -13,27 +14,20 @@ import { Router } from '@angular/router';
 export class GlobalFeedComponent implements OnInit {
 
   feeds = [];
-  constructor(private globalFeedService: GlobalFeedService, private authService: AuthService, private likeUnlikeArticleService: LikeUnlikeArticleService, private router: Router) { }
+  
+  p: number = 1;
+
+  tagList: string[];
+
+  constructor(private globalFeedService: GlobalFeedService, private authService: AuthService, private likeUnlikeArticleService: LikeUnlikeArticleService, private router: Router, private getTagsService: GetTagsService) { }
 
   isSignedIn = false;
 
-  isFavoritesButtonClicked = false;
-
-  isFavoriteCountIncreased = false;
-
-  favoritesCount: number;
+  isArticleFavorited: boolean;
 
   isGlobalFeedSelected = false;
 
-  getFavoritesCount(){
-    if(this.favoritesCount){
-      return this.favoritesCount;
-    }
-  }
-
   ngOnInit() {
-
-    this.isFavoritesButtonClicked = false;
 
     this.isSignedIn = this.authService.isLoggedIn();
 
@@ -48,10 +42,16 @@ export class GlobalFeedComponent implements OnInit {
     .subscribe(
       (response) => {
         const data = response.json();
-        console.log(data);
         this.feeds = data.articles;
       }
     );
+
+    this.getTagsService.get().subscribe(
+      (response) => {
+        this.tagList = response.json().tags;
+        console.log(this.tagList);
+      }
+    )
   }
 
   onSelectYourFeed(){
@@ -80,36 +80,34 @@ export class GlobalFeedComponent implements OnInit {
 
   onLikeArticle(article){
 
+    let favoritesButton = document.getElementById('favoritesCountButton');
+    this.isArticleFavorited = article.favorited;
     console.log(article);
-    this.isFavoritesButtonClicked = true;
-    this.favoritesCount = article.favoritesCount;
 
     if (this.isSignedIn) {
-      if (article.favorited) {
+      if (this.isArticleFavorited) {
+        
         console.log('Unliking article');
-        this.favoritesCount--;
-        this.isFavoriteCountIncreased = false;
-        article.favorited = false;
-        this.likeUnlikeArticleService.unlikeArticle(article.slug).subscribe(
+        favoritesButton.classList.replace('isFavorited', 'btn-outline-success')
+          this.isArticleFavorited = false;
+          this.likeUnlikeArticleService.unlikeArticle(article.slug).subscribe(
           (response) => {
             const data = response.json().article;
             console.log(data);
-            this.isFavoritesButtonClicked = false;
           }
         );
       } else {
         console.log('Liking article');
-        article.favorited = true;
-        this.favoritesCount++;
-        this.isFavoriteCountIncreased = true;
+        favoritesButton.classList.replace('btn-outline-success', 'isFavorited')
+        this.isArticleFavorited = true;
         this.likeUnlikeArticleService.likeArticle(article.slug).subscribe(
           (response) =>{
             const data = response.json().article;
             console.log(data);
-            this.isFavoritesButtonClicked = false;
           }
         );
       }
+      console.log(article);
     }
     else {
       this.router.navigate(['/login']);

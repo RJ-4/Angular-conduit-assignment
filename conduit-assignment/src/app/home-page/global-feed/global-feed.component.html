@@ -21,7 +21,7 @@
       </div>
       
       <div *ngIf="isGlobalFeedSelected">
-        <div *ngFor="let feed of feeds; let i = index">
+        <div *ngFor="let feed of feeds| paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
           <div class="d-flex">
             <div class="align-self-start">
               <img [src]="feed.author.image" class="rounded-circle p-1" width="50px" height="50px">
@@ -31,13 +31,8 @@
               <small><div class="align-self-end text-secondary">{{ feed.updatedAt| date }}</div></small>
             </div>
             <small class="ml-auto"> 
-              <button class="btn btn-outline-success" id="favoritesCountButton" #b (click)="onLikeArticle(feed)">
-                <small><i class="fas fa-heart mr-1"></i>
-                  <span *ngIf="!isFavoritesButtonClicked">{{ feeds[i].favoritesCount }}</span>
-                  <span *ngIf="isFavoritesButtonClicked"> 
-                    <span *ngIf="isFavoriteCountIncreased">{{ feeds[i].favoritesCount + 1 }}</span>
-                    <span *ngIf="!isFavoriteCountIncreased">{{ feeds[i].favoritesCount }}</span>
-                  </span>
+              <button class="btn btn-outline-success" id="favoritesCountButton" (click)="onLikeArticle(feed)">
+                <small><i class="fas fa-heart mr-1"></i>{{ feeds[i].favoritesCount }}
                 </small> 
               </button>
             </small>
@@ -47,13 +42,22 @@
           <small><a [routerLink]="['/article', feed.slug]" class="text-secondary px-2">Read more...</a></small>
           <hr>
         </div>
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
       </div>
     </div>
 
     <div class="col-md-4">
-      
+      <div class="container bg-light ml-3 mt-2 mb-5">
+        <h6 class="pt-3 pb-3">Popular tags</h6>
+          <div *ngFor="let tag of tagList; let i=index">
+            <div *ngIf="i < (tagList.length)/2">
+              <button class="d-inline btn btn-secondary btn-sm m-1" style="border-radius: 10rem">{{ tagList[i] }}</button>
+              <button *ngIf="(tagList.length) % 2 === 0 || i < ((tagList.length) / 2) - 1" class="d-inline btn btn-secondary btn-sm m-1" style="border-radius: 10rem">{{ tagList[tagList.length - (i+1)] }}</button>
+            </div>
+          </div>
+      </div>
     </div>
-    
+  
   </div>
 </div>
 

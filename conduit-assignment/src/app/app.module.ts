@@ -34,6 +34,7 @@ import { LikeUnlikeArticleService } from './like-unlike-article.service';
 import { NewArticleComponent } from './new-article/new-article.component';
 import { CreateArticleService } from './new-article/create-article.service';
 import { CommonModule } from '@angular/common';
+import {NgxPaginationModule} from 'ngx-pagination';
 import { GetArticleService } from './new-article/get-article.service';
 import { UpdateArticleService } from './new-article/update-article.service';
 import { DeleteArticleService } from './new-article/delete-article.service';
@@ -44,6 +45,8 @@ import { AddCommentService } from './selected-feed/comments/add-comment/add-comm
 import { DeleteCommentService } from './selected-feed/comments/delete-comment/delete-comment.service';
 import { FollowUserService } from './selected-user/follow-user.service';
 import { UnfollowUserService } from './selected-user/unfollow-user.service';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { GetTagsService } from './home-page/get-tags.service';
 
 const appRoutes: Routes=[
   {path: '', component: HomePageComponent},
@@ -52,10 +55,12 @@ const appRoutes: Routes=[
   {path: 'article/:slug', component: SelectedFeedComponent},
   {path: 'settings', component: SettingsComponent},
   {path: 'editor', component: NewArticleComponent},
+  {path: 'page-not-found', component: PageNotFoundComponent},
   {path: 'editor/:slug', component: NewArticleComponent},
   {path: ':username', component: SelectedUserComponent, children: [
     {path: 'favorites', component: SelectedUserFavoriteArticlesComponent}
-  ]}
+  ]},
+  {path: '**', redirectTo: '/page-not-found'}
   
 ];
 
@@ -82,16 +87,18 @@ const appRoutes: Routes=[
     SelectedUserFavoriteArticlesComponent,
     NewArticleComponent,
     AddCommentComponent,
-    DisplayCommentsComponent
+    DisplayCommentsComponent,
+    PageNotFoundComponent
   ],
   imports: [
+    NgxPaginationModule,
     ReactiveFormsModule,
     HttpModule,
     FormsModule,
     RouterModule.forRoot(appRoutes),
     BrowserModule
   ],
-  providers: [GlobalFeedService, SignUpService, SignInService, AuthService, UpdateUserService, GetSelectedUserService, GetFeedsService, LikeUnlikeArticleService, CreateArticleService, GetArticleService, UpdateArticleService, DeleteArticleService, DisplayCommentsService, AddCommentService, DeleteCommentService, FollowUserService, UnfollowUserService],
+  providers: [GlobalFeedService, SignUpService, SignInService, AuthService, UpdateUserService, GetSelectedUserService, GetFeedsService, LikeUnlikeArticleService, CreateArticleService, GetArticleService, UpdateArticleService, DeleteArticleService, DisplayCommentsService, AddCommentService, DeleteCommentService, FollowUserService, UnfollowUserService, GetTagsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
